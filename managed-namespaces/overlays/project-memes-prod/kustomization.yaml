@@ -1,0 +1,30 @@
+  apiVersion: kustomize.config.k8s.io/v1beta1
+5.  kind: Kustomization
+6.   
+7.  namespace: project-memes-prod
+8.  bases:
+9.  - ../../base
+10. 
+11.# Patches are edits to make to a set of one or more targets
+12.patches:
+13.# This patch targets the Namespace resource and changes the
+14.# value of metadata.name to "project-memes-prod"
+15.- target:
+16.    kind: Namespace
+17.    name: for-replacement
+18.  patch: |-
+19.    - op: replace
+20.      path: /metadata/name
+21.      value: project-memes-prod
+22.# This patch targets the resource quota. It doubles the available
+23.# resources compared to the default values
+24.- target:
+25.    kind: ResourceQuota
+26.    name: resource-quota-memory-cpu
+27.  patch: |-
+28.    - op: replace
+29.      path: /spec/hard/cpu
+30.      value: 1
+31.    - op: replace
+32.      path: /spec/hard/memory
+      value: 1Gi
